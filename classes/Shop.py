@@ -1,25 +1,18 @@
 from random import randint
-import DataBase #temp
 
 class shop(): #Shop Admin
-    def __init__(self, username, password):
+    def __init__(self, username, password,email):
         self.ID = self.setid()                                                                  
         self.UserName = username                                                                  
         self.Password = password
+        self.Email  = email
         self.LOC = [] #List of Customers
         self.LOS = [] #List of Sellers
         self.LOP = [] #List of Products
-        DataBase.Shops.append(self)
-        self.REFRESH
     def __repr__(self):
         return f"Shop: {self.ID}"
     def setid(self):
         return "SP"+str(randint(99999,999999))
-
-    def REFRESH(self):
-        self.LOC = DataBase.Customers
-        self.LOS = DataBase.Sellers
-        self.LOP = DataBase.Products
 
     def CHANGE_USERNAME(self, username):
         self.UserName = username

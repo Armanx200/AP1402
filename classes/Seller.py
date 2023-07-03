@@ -1,21 +1,18 @@
 from random import randint
-import DataBase #temp
 import Product
 import Item
 
 class seller(): #Seller
-    def __init__(self, username, email, password, dfcs):
+    def __init__(self, username, email, password):
         self.ID = self.setid()                                
         self.Name = username                                   
         self.UserName = username                               
         self.Email = email                                     
         self.Password = password
-        self.DFCS = dfcs         #Distance from centeral shop                               
+        self.DFCS = 0         #Distance from centeral shop                               
         self.Wallet = 0
         self.Rating = 0
         self.Rates = 0          #how many people rated this
-        DataBase.Sellers.append(self.ID) #temp
-        DataBase.Refresh()
     def __repr__(self):
         return f"Name: {self.Name}\nEmail: {self.Email}\nWallet: {self.Wallet}$\nRating: {self.Rating}/5"
     def setid(self):

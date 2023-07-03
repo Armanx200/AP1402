@@ -9,10 +9,28 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-
+import pickle
+import hashlib
+import sys
+sys.path.append('../classes/')
+sys.path.append('../DataBase/')
+from Customer import customer
+from Seller import seller
+from Shop import shop
+from Main import Main
 class Ui_LoginPage(object):
     def setupUi(self, LoginPage):
+        # with open('../DataBase/logined.pkl', 'rb') as handle:
+        #         logined_account = pickle.load(handle)
+        # if 'customer' in str(type(logined_account)):
+        #         self.Login()
+
+        # elif 'seller' in str(type(logined_account)):
+        #         self.Login()
+        # elif 'shop' in str(type(logined_account)):
+        #         self.Login()
+        self.page = LoginPage
+
         LoginPage.setObjectName("LoginPage")
         LoginPage.resize(450, 500)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -97,6 +115,13 @@ class Ui_LoginPage(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Login_PB.sizePolicy().hasHeightForWidth())
+        
+        self.Error_Email_LB = QtWidgets.QLabel(LoginPage)
+        self.Error_Email_LB.setObjectName("Error_Email_LB")
+        self.Error_Email_LB.setStyleSheet("color: Red;")
+        self.verticalLayout.addWidget(self.Error_Email_LB, 0, QtCore.Qt.AlignHCenter)
+        self.Error_Email_LB.setHidden(True)
+        
         self.Login_PB.setSizePolicy(sizePolicy)
         self.Login_PB.setMinimumSize(QtCore.QSize(200, 50))
         font = QtGui.QFont()
@@ -111,6 +136,7 @@ class Ui_LoginPage(object):
         self.Login_PB.setCheckable(False)
         self.Login_PB.setChecked(False)
         self.Login_PB.setObjectName("Login_PB")
+        self.Login_PB.clicked.connect(self.logintoaccount)
         self.verticalLayout.addWidget(self.Login_PB, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.DownLayout = QtWidgets.QVBoxLayout()
         self.DownLayout.setContentsMargins(-1, 0, -1, 50)
@@ -135,18 +161,81 @@ class Ui_LoginPage(object):
         self.CreateAcc_PB.setMinimumSize(QtCore.QSize(300, 0))
         self.CreateAcc_PB.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.CreateAcc_PB.setObjectName("CreateAcc_PB")
+        self.CreateAcc_PB.clicked.connect(self.go_to_register)
         self.DownLayout.addWidget(self.CreateAcc_PB, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.DownLayout.setStretch(0, 1)
         self.verticalLayout.addLayout(self.DownLayout)
-
+        
         self.retranslateUi(LoginPage)
         QtCore.QMetaObject.connectSlotsByName(LoginPage)
+
+    def go_to_register(self):
+        from Register import Ui_RegisterPage
+        self.RegisterPage = QtWidgets.QWidget()
+        self.ui = Ui_RegisterPage()
+        self.ui.setupUi(self.RegisterPage)
+        
+        self.page.hide()
+        self.RegisterPage.show()
+
+    def logintoaccount(self):
+        #self.UserName_LE = 
+        email = self.UserName_LE.text().lower()
+        password = self.Password_LE.text()
+        password_hashed = hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest()
+        position = self.Position_CB.currentText()
+        flag = False
+        if position=='Customer':
+                with open('../DataBase/Customers.pkl', 'rb') as handle:
+                        customers_list = pickle.load(handle)   
+                for c in customers_list:
+                        if c.Email == email:
+                                if c.Password == password_hashed:
+                                        flag = True
+                                        with open('../DataBase/logined.pkl', 'wb') as handle:
+                                                pickle.dump(c, handle)
+                                        self.page.hide()
+                                        Main()
+                                        sys.exit(0)
+                
+        elif position=='Seller':
+                with open('../DataBase/Sellers.pkl', 'rb') as handle:
+                        sellers_list = pickle.load(handle)   
+                for s in sellers_list:
+                        if s.Email == email:
+                                if s.Password == password_hashed:
+                                        flag = True
+                                        with open('../DataBase/logined.pkl', 'wb') as handle:
+                                                pickle.dump(s, handle)
+                                        self.page.hide()
+                                        Main()
+                                        sys.exit(0)
+                                
+        elif position=='Shop Admin':
+                with open('../DataBase/Operators.pkl', 'rb') as handle:
+                        operators_list = pickle.load(handle)   
+                for o in operators_list:
+                        if o.Email == email:
+                                if o.Password == password_hashed:
+                                        flag = True
+                                        with open('../DataBase/logined.pkl', 'wb') as handle:
+                                                pickle.dump(o, handle)
+                                        self.page.hide()
+                                        Main()
+                                        sys.exit(0)
+        if flag ==False :
+                _translate = QtCore.QCoreApplication.translate
+                self.Error_Email_LB.setHidden(False)
+                self.Error_Email_LB.setText(_translate("LoginPage", 'Your email or password in wrong!'))
+              
+
+
 
     def retranslateUi(self, LoginPage):
         _translate = QtCore.QCoreApplication.translate
         LoginPage.setWindowTitle(_translate("LoginPage", "Login"))
-        self.UserName_LB.setText(_translate("LoginPage", "UserName: "))
-        self.UserName_LE.setPlaceholderText(_translate("LoginPage", "Username"))
+        self.UserName_LB.setText(_translate("LoginPage", "Email: "))
+        self.UserName_LE.setPlaceholderText(_translate("LoginPage", "Email"))
         self.Password_LB.setText(_translate("LoginPage", "Password"))
         self.Password_LE.setPlaceholderText(_translate("LoginPage", "Password"))
         self.Position_LB.setText(_translate("LoginPage", "Position"))
@@ -158,11 +247,15 @@ class Ui_LoginPage(object):
         self.CreateAcc_PB.setText(_translate("LoginPage", "Create your account"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    LoginPage = QtWidgets.QWidget()
-    ui = Ui_LoginPage()
-    ui.setupUi(LoginPage)
-    LoginPage.show()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     import sys
+#     app = QtWidgets.QApplication(sys.argv)
+#     LoginPage = QtWidgets.QWidget()
+#     ui = Ui_LoginPage()
+# #     x = ui.Login()
+# #     if x==False:
+# #         ui.setupUi(LoginPage)
+# #         LoginPage.show()
+#     ui.setupUi(LoginPage)
+#     LoginPage.show()
+#     sys.exit(app.exec_())

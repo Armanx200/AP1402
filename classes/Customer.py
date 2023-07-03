@@ -1,6 +1,6 @@
 from random import randint
-import DataBase #temp
 import Item
+
 class customer(): #Customer
     def __init__(self, username, email, password):
         self.ID = self.setid()
@@ -12,8 +12,6 @@ class customer(): #Customer
         self.Cart = []            #List of Purchased items
         self.Cart_value = 0
         self.Wishlist = []
-        DataBase.Customers.append(self.ID) #temp
-        DataBase.Refresh()
     def __repr__(self):
         return f"Name: {self.Name}\nUserName: {self.UserName}\nEmail: {self.Email}\nPassword: {self.Password}\nID: {self.ID}\nWallet: {self.Wallet}$\nCart: {self.Cart}\nWishlist: {self.Wishlist}"
     def setid(self):

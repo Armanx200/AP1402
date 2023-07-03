@@ -1,5 +1,4 @@
 from random import randint
-import DataBase #temp
 
 class product(): #Product
     def __init__(self, name, description="", image="Product.jpg"):   #must at least has a image
@@ -10,8 +9,6 @@ class product(): #Product
         self.Images = []
         self.Rating = 0
         self.Rates = 0
-        DataBase.Products.append(self) #temp
-        DataBase.Refresh()
     def __repr__(self):
         return f"Product: {self.Name}\nID: {self.ID}\nDescription: {self.Description}\nrating: {self.Rating}/5"
     def setid(self):
