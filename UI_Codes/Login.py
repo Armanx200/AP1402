@@ -11,13 +11,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pickle
 import hashlib
-import sys
+import sys,os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
+import subprocess
 sys.path.append('../classes/')
 sys.path.append('../DataBase/')
 from Customer import customer
 from Seller import seller
 from Shop import shop
 from Main import Main
+
 class Ui_LoginPage(object):
     def setupUi(self, LoginPage):
         # with open('../DataBase/logined.pkl', 'rb') as handle:
@@ -194,9 +198,11 @@ class Ui_LoginPage(object):
                                         flag = True
                                         with open('../DataBase/logined.pkl', 'wb') as handle:
                                                 pickle.dump(c, handle)
-                                        self.page.hide()
-                                        Main()
-                                        sys.exit(0)
+                                        self.page.close()
+                                        os.system('python Main.py')
+                                        
+
+
                 
         elif position=='Seller':
                 with open('../DataBase/Sellers.pkl', 'rb') as handle:
@@ -207,9 +213,10 @@ class Ui_LoginPage(object):
                                         flag = True
                                         with open('../DataBase/logined.pkl', 'wb') as handle:
                                                 pickle.dump(s, handle)
-                                        self.page.hide()
-                                        Main()
-                                        sys.exit(0)
+                                        self.page.close()
+                                        os.system('python Main.py')
+                                        
+                                       
                                 
         elif position=='Shop Admin':
                 with open('../DataBase/Operators.pkl', 'rb') as handle:
@@ -220,9 +227,9 @@ class Ui_LoginPage(object):
                                         flag = True
                                         with open('../DataBase/logined.pkl', 'wb') as handle:
                                                 pickle.dump(o, handle)
-                                        self.page.hide()
-                                        Main()
-                                        sys.exit(0)
+                                        self.page.close()
+                                        os.system('python Main.py')
+
         if flag ==False :
                 _translate = QtCore.QCoreApplication.translate
                 self.Error_Email_LB.setHidden(False)

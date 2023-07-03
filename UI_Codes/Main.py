@@ -1,7 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import sys
+import sys,os
 import pickle
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
+
 class Main():
     def __init__(self):
         from Login import Ui_LoginPage
@@ -24,5 +27,6 @@ class Main():
         ui.setupUi(Page)
         Page.show()
         sys.exit(app.exec_())
+
 if __name__=='__main__':
     main = Main()

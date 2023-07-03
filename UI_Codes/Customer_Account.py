@@ -7,9 +7,17 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import pickle
+import sys,os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
+sys.path.append('../classes/')
+sys.path.append('../DataBase/')
 
 class Ui_Main_Customer(object):
     def setupUi(self, Main_Customer):
+
+        self.page = Main_Customer
         Main_Customer.setObjectName("Main_Customer")
         Main_Customer.resize(1038, 570)
         Main_Customer.setMinimumSize(QtCore.QSize(1038, 570))
@@ -18,16 +26,16 @@ class Ui_Main_Customer(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.Header = QtWidgets.QHBoxLayout()
         self.Header.setObjectName("Header")
-        self.pushButton_2 = QtWidgets.QPushButton(Main_Customer)
-        self.pushButton_2.setMinimumSize(QtCore.QSize(73, 69))
-        self.pushButton_2.setMaximumSize(QtCore.QSize(73, 69))
-        self.pushButton_2.setText("")
+        self.Back_PB = QtWidgets.QPushButton(Main_Customer)
+        self.Back_PB.setMinimumSize(QtCore.QSize(73, 69))
+        self.Back_PB.setMaximumSize(QtCore.QSize(73, 69))
+        self.Back_PB.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../Images/Back.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_2.setIcon(icon)
-        self.pushButton_2.setIconSize(QtCore.QSize(60, 60))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.Header.addWidget(self.pushButton_2)
+        self.Back_PB.setIcon(icon)
+        self.Back_PB.setIconSize(QtCore.QSize(60, 60))
+        self.Back_PB.setObjectName("Back_PB")
+        self.Header.addWidget(self.Back_PB)
         self.Exit_PB = QtWidgets.QPushButton(Main_Customer)
         self.Exit_PB.setMinimumSize(QtCore.QSize(73, 69))
         self.Exit_PB.setMaximumSize(QtCore.QSize(73, 69))
@@ -264,32 +272,52 @@ class Ui_Main_Customer(object):
         self.Main_SA.setWidget(self.Main_SA_QW)
         self.verticalLayout.addWidget(self.Main_SA)
 
+        ### Header ###
+        with open('../DataBase/logined.pkl', 'rb') as handle:
+            c = pickle.load(handle)
+        self.Back_PB.clicked.connect(self.back)
+        self.Exit_PB.clicked.connect(self.logout)
+        self.Wishlist_PB.clicked.connect(self.wishlist)
+        self.Cart_PB.clicked.connect(self.cart)
+        self.Email_var.setText(c.Email)
+        self.ID_var.setText(c.ID)
+        self.Name_var.setText(c.Name)
+        self.Money_var.setText(str(c.Wallet))
+        self.Cart_PB.setText(str(len(c.Cart)))
+        ### Main ###
+        self.widget1.setVisible(False)
+        self.widget2.setVisible(False)
+        self.widget3.setVisible(False)
+        self.NameEdit_PB.clicked.connect(self.name_edit)
+        self.DFSEdit_PB.clicked.connect(self.dfs_edit)
+        self.PassEdit_PB.clicked.connect(self.pass_edit)
+        self.Name_Edit_PB.clicked.connect(self.change_name)
+        self.Edit_DFS_PB.clicked.connect(self.change_dfs)
+        self.Edit_Pass_PB.clicked.connect(self.change_pass)
+        self.Edit_Pass_LE.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.New_Pass_LE.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.BIO_Email_LB.setText(c.Email)
+        self.BIO_Name_LB.setText(c.Name)
+        self.BIO_ID_LB.setText(c.ID)
+        self.DFS_LB.setText(c.DFCS)
+
         self.retranslateUi(Main_Customer)
         QtCore.QMetaObject.connectSlotsByName(Main_Customer)
 
     def retranslateUi(self, Main_Customer):
         _translate = QtCore.QCoreApplication.translate
         Main_Customer.setWindowTitle(_translate("Main_Customer", "Form"))
-        self.Cart_PB.setText(_translate("Main_Customer", "Count"))
-        self.Email_var.setText(_translate("Main_Customer", "Email"))
         self.Email_LB.setText(_translate("Main_Customer", "ایمیل :"))
         self.ID_LB.setText(_translate("Main_Customer", "آیدی :"))
-        self.ID_var.setText(_translate("Main_Customer", "ID"))
-        self.Name_var.setText(_translate("Main_Customer", "Name"))
         self.Name_LB.setText(_translate("Main_Customer", "نام : "))
         self.Unit_LB.setText(_translate("Main_Customer", "ریال"))
-        self.Money_var.setText(_translate("Main_Customer", "<html><head/><body><p><span style=\" font-size:10pt;\">Money</span></p></body></html>"))
         self.Bal_LB.setText(_translate("Main_Customer", "<html><head/><body><p align=\"right\"><span style=\" font-size:12pt;\">: موجودی</span></p></body></html>"))
         self.Shop_Name_LB.setText(_translate("Main_Customer", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">فروشگاه من</span></p></body></html>"))
         self.Pass_LB.setText(_translate("Main_Customer", "*******"))
-        self.BIO_Email_LB.setText(_translate("Main_Customer", "Email"))
         self.DFSEdit_PB.setText(_translate("Main_Customer", "ویرایش"))
         self.NameEdit_PB.setText(_translate("Main_Customer", "ویرایش"))
-        self.BIO_ID_LB.setText(_translate("Main_Customer", "ID"))
         self.BIO_LB_Text.setText(_translate("Main_Customer", "مشخصات کاربری: "))
-        self.BIO_Name_LB.setText(_translate("Main_Customer", "Name"))
         self.PassEdit_PB.setText(_translate("Main_Customer", "ویرایش"))
-        self.DFS_LB.setText(_translate("Main_Customer", "DFS"))
         self.DFS_LB_Text.setText(_translate("Main_Customer", "فاصله از مرکز: "))
         self.BIO_Email_LB_Text.setText(_translate("Main_Customer", "ایمیل: "))
         self.BIO_Name_LB_Text.setText(_translate("Main_Customer", "نام: "))
@@ -311,13 +339,117 @@ class Ui_Main_Customer(object):
         self.Edit_Pass_LE.setPlaceholderText(_translate("Main_Customer", "رمز قدیمی خود را وارد کنید."))
         self.Edit_Pass_PB.setText(_translate("Main_Customer", "تغییر رمز"))
 
+    ### Header ###
+    def logout(self):
+        with open('../DataBase/logined.pkl', 'wb') as handle:
+            pickle.dump(0, handle)
+        self.page.close()
+        os.system('python Main.py')
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Main_Customer = QtWidgets.QWidget()
-    ui = Ui_Main_Customer()
-    ui.setupUi(Main_Customer)
-    Main_Customer.show()
-    sys.exit(app.exec_())
+    def wishlist(self):
+        from Customer_WishList import Ui_Main_Customer
+        self.WishListPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.WishListPage)
+        
+        self.page.hide()
+        self.WishListPage.show()
 
+    def cart(self):
+        from Customer_Cart import Ui_Main_Customer
+        self.CartPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.CartPage)
+        
+        self.page.hide()
+        self.CartPage.show()
+    
+    def back(self):
+        from Customer_Main import Ui_Main_Customer
+        self.MainPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.MainPage)
+        
+        self.page.hide()
+        self.MainPage.show()
+        
+    ### Main ###
+    def name_edit(self):
+        self.widget1.setVisible(True) #name
+        self.widget2.setVisible(False) #dfs
+        self.widget3.setVisible(False) #pass
+    
+    def dfs_edit(self):
+        self.widget1.setVisible(False) #name
+        self.widget2.setVisible(True) #dfs
+        self.widget3.setVisible(False) #pass
+    
+    def pass_edit(self):
+        self.widget1.setVisible(False) #name
+        self.widget2.setVisible(False) #dfs
+        self.widget3.setVisible(True) #pass
+
+    def refresh(self):
+        self.Page = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.Page)
+        
+        self.page.hide()
+        self.Page.show()
+
+    def change_name(self):
+        name = self.New_Name_LE.text()
+        from Customer import customer
+        with open('../DataBase/logined.pkl', 'rb') as handle:
+                        obj = pickle.load(handle)
+        if len(name) >= 0: 
+            with open('../DataBase/Customers.pkl', 'rb') as handle:
+                customers_list = pickle.load(handle)
+            for c in customers_list:
+                if c.Email == obj.Email:
+                    c.CHANGE_NAME(name)
+            with open('../DataBase/Customers.pkl', 'wb') as handle:
+                        pickle.dump(customers_list, handle)
+            with open('../DataBase/logined.pkl', 'wb') as handle:
+                        pickle.dump(c, handle)   
+        self.refresh()
+    
+    def change_dfs(self):
+        dfs = self.New_DFS_LE.text()
+        from Customer import customer
+        with open('../DataBase/logined.pkl', 'rb') as handle:
+                        obj = pickle.load(handle)
+        with open('../DataBase/Customers.pkl', 'rb') as handle:
+                customers_list = pickle.load(handle)
+        for c in customers_list:
+            if c.Email == obj.Email:
+                c.DFCS = dfs
+        with open('../DataBase/Customers.pkl', 'wb') as handle:
+                    pickle.dump(customers_list, handle)
+        with open('../DataBase/logined.pkl', 'wb') as handle:
+                    pickle.dump(c, handle)
+        self.refresh()
+
+    def change_pass(self):
+        old_pass = self.Edit_Pass_LE.text()
+        new_pass = self.New_Pass_LE.text()
+        import hashlib
+        from Customer import customer
+        with open('../DataBase/logined.pkl', 'rb') as handle:
+                        obj = pickle.load(handle)
+        if hashlib.sha256(bytes(old_pass, encoding='utf-8')).hexdigest() == obj.Password:
+            #obj.Password = hashlib.sha256(bytes(new_pass, encoding='utf-8')).hexdigest()
+            with open('../DataBase/Customers.pkl', 'rb') as handle:
+                customers_list = pickle.load(handle)
+            for c in customers_list:
+                if c.Email == obj.Email:
+                    c.Password = hashlib.sha256(bytes(new_pass, encoding='utf-8')).hexdigest()
+            with open('../DataBase/Customers.pkl', 'wb') as handle:
+                        pickle.dump(customers_list, handle)    
+        
+            
+        self.refresh()
+
+    
+        
+        

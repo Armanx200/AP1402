@@ -9,7 +9,9 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import re
-import sys
+import sys,os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
 sys.path.append('../classes/')
 sys.path.append('../DataBase/')
 from Customer import customer
@@ -59,6 +61,13 @@ class Ui_RegisterPage(object):
 "")
         self.UserName_LE.setObjectName("UserName_LE")
         self.UpLayout.addWidget(self.UserName_LE, 0, 1, 1, 1)
+        self.Email_LE = QtWidgets.QLineEdit(RegisterPage)
+        self.Email_LE.setMinimumSize(QtCore.QSize(250, 40))
+        self.Email_LE.setMaximumSize(QtCore.QSize(500, 500))
+        self.Email_LE.setObjectName("Email_LE")
+        self.UpLayout.addWidget(self.Email_LE, 1, 1, 1, 1)
+        self.Email_LB = QtWidgets.QLabel(RegisterPage)
+        self.Email_LB.setObjectName("Email_LB")
         self.Password_LE = QtWidgets.QLineEdit(RegisterPage)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -113,13 +122,7 @@ class Ui_RegisterPage(object):
         self.Position_LB = QtWidgets.QLabel(RegisterPage)
         self.Position_LB.setObjectName("Position_LB")
         self.UpLayout.addWidget(self.Position_LB, 4, 0, 1, 1, QtCore.Qt.AlignLeft)
-        self.Email_LE = QtWidgets.QLineEdit(RegisterPage)
-        self.Email_LE.setMinimumSize(QtCore.QSize(250, 40))
-        self.Email_LE.setMaximumSize(QtCore.QSize(500, 500))
-        self.Email_LE.setObjectName("Email_LE")
-        self.UpLayout.addWidget(self.Email_LE, 1, 1, 1, 1)
-        self.Email_LB = QtWidgets.QLabel(RegisterPage)
-        self.Email_LB.setObjectName("Email_LB")
+        
         self.UpLayout.addWidget(self.Email_LB, 1, 0, 1, 1)
         self.UpLayout.setColumnStretch(0, 1)
         self.verticalLayout.addLayout(self.UpLayout)
@@ -269,7 +272,8 @@ class Ui_RegisterPage(object):
                                         pickle.dump(customers_list, handle)
                                 with open('../DataBase/logined.pkl', 'wb') as handle:
                                         pickle.dump(c, handle)
-                                self.go_to_login()
+                                self.page.close()
+                                os.system('python Main.py')
                         else:
                                 self.Error_Email_LB.setHidden(False)
                                 self.Error_Email_LB.setText(_translate("RegisterPage", "Your Email exist in our database!"))
@@ -288,7 +292,8 @@ class Ui_RegisterPage(object):
                                         pickle.dump(sellers_list, handle)
                                 with open('../DataBase/logined.pkl', 'wb') as handle:
                                         pickle.dump(s, handle)
-                                self.go_to_login()
+                                self.page.close()
+                                os.system('python Main.py')
                         else:
                                 self.Error_Email_LB.setHidden(False)
                                 self.Error_Email_LB.setText(_translate("RegisterPage", "Your Email exist in our database!"))

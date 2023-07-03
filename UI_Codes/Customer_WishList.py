@@ -7,9 +7,15 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import pickle
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
 
 class Ui_Main_Customer(object):
     def setupUi(self, Main_Customer):
+
+        self.page = Main_Customer
         Main_Customer.setObjectName("Main_Customer")
         Main_Customer.resize(1038, 570)
         Main_Customer.setMinimumSize(QtCore.QSize(1038, 570))
@@ -270,21 +276,30 @@ class Ui_Main_Customer(object):
         self.Main.addLayout(self.Main_VL, 0, 0, 1, 1)
         self.verticalLayout.addLayout(self.Main)
 
+        ### Header ###
+        with open('../DataBase/logined.pkl', 'rb') as handle:
+            c = pickle.load(handle)
+        self.pushButton_2.clicked.connect(self.back)  #pushButton_2 = Back_PB
+        self.Exit_PB.clicked.connect(self.logout)
+        self.Wishlist_PB.clicked.connect(self.wishlist)
+        self.Cart_PB.clicked.connect(self.cart)
+        self.Email_var.setText(c.Email)
+        self.ID_var.setText(c.ID)
+        self.Name_var.setText(c.Name)
+        self.Money_var.setText(str(c.Wallet))
+        self.Cart_PB.setText(str(len(c.Cart)))
+        ### Main ###
+
         self.retranslateUi(Main_Customer)
         QtCore.QMetaObject.connectSlotsByName(Main_Customer)
 
     def retranslateUi(self, Main_Customer):
         _translate = QtCore.QCoreApplication.translate
         Main_Customer.setWindowTitle(_translate("Main_Customer", "Form"))
-        self.Cart_PB.setText(_translate("Main_Customer", "Count"))
-        self.Email_var.setText(_translate("Main_Customer", "Email"))
         self.Email_LB.setText(_translate("Main_Customer", "ایمیل :"))
         self.ID_LB.setText(_translate("Main_Customer", "آیدی :"))
-        self.ID_var.setText(_translate("Main_Customer", "ID"))
-        self.Name_var.setText(_translate("Main_Customer", "Name"))
         self.Name_LB.setText(_translate("Main_Customer", "نام : "))
         self.Unit_LB.setText(_translate("Main_Customer", "ریال"))
-        self.Money_var.setText(_translate("Main_Customer", "<html><head/><body><p><span style=\" font-size:10pt;\">Money</span></p></body></html>"))
         self.Bal_LB.setText(_translate("Main_Customer", "<html><head/><body><p align=\"right\"><span style=\" font-size:12pt;\">: موجودی</span></p></body></html>"))
         self.Shop_Name_LB.setText(_translate("Main_Customer", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">فروشگاه من</span></p></body></html>"))
         self.Name_6.setText(_translate("Main_Customer", "Name"))
@@ -298,12 +313,38 @@ class Ui_Main_Customer(object):
         self.label.setText(_translate("Main_Customer", "<html><head/><body><p><span style=\" font-size:18pt; font-weight:600;\">لیست علاقه مندیها</span></p></body></html>"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Main_Customer = QtWidgets.QWidget()
-    ui = Ui_Main_Customer()
-    ui.setupUi(Main_Customer)
-    Main_Customer.show()
-    sys.exit(app.exec_())
+### Header ###
+    def logout(self):
+        with open('../DataBase/logined.pkl', 'wb') as handle:
+            pickle.dump(0, handle)
+        self.page.close()
+        os.system('python Main.py')
+
+    def wishlist(self):
+        from Customer_WishList import Ui_Main_Customer
+        self.WishListPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.WishListPage)
+        
+        self.page.hide()
+        self.WishListPage.show()
+
+    def cart(self):
+        from Customer_Cart import Ui_Main_Customer
+        self.CartPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.CartPage)
+        
+        self.page.hide()
+        self.CartPage.show()
+    
+    def back(self):
+        from Customer_Main import Ui_Main_Customer
+        self.MainPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.MainPage)
+        
+        self.page.hide()
+        self.MainPage.show()
+    ### Main ###
 

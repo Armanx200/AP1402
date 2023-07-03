@@ -7,6 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dir_path)
 
 class Ui_Main_Customer(object):
     def setupUi(self, Main_Customer):

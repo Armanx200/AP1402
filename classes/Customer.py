@@ -9,6 +9,7 @@ class customer(): #Customer
         self.Email = email
         self.Password = password
         self.Wallet = 0
+        self.DFCS = ""
         self.Cart = []            #List of Purchased items
         self.Cart_value = 0
         self.Wishlist = []
