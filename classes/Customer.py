@@ -9,9 +9,9 @@ class customer(): #Customer
         self.Email = email
         self.Password = password
         self.Wallet = 0
-        self.DFCS = ""
+        self.DFCS = ""    #distance from central shop
         self.Cart = []            #List of Purchased items
-        self.Cart_value = 0
+        self.Cart_value = 0      #total cost
         self.Wishlist = []
     def __repr__(self):
         return f"Name: {self.Name}\nUserName: {self.UserName}\nEmail: {self.Email}\nPassword: {self.Password}\nID: {self.ID}\nWallet: {self.Wallet}$\nCart: {self.Cart}\nWishlist: {self.Wishlist}"

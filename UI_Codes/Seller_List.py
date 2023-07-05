@@ -160,7 +160,7 @@ class Ui_Main_Customer(object):
 
     def retranslateUi(self, Main_Customer):
         _translate = QtCore.QCoreApplication.translate
-        Main_Customer.setWindowTitle(_translate("Main_Customer", "Form"))
+        Main_Customer.setWindowTitle(_translate("Main_Customer", "List"))
         self.Wishlist_PB_2.setText(_translate("Main_Customer", "نظرات"))
         self.ID_LB_2.setText(_translate("Main_Customer", "آیدی :"))
         self.Email_LB_2.setText(_translate("Main_Customer", "ایمیل :"))
