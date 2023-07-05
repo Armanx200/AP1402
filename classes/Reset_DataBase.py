@@ -25,4 +25,8 @@ def reset():
     open('../DataBase/logined.pkl', 'w')
     with open('../DataBase/logined.pkl', 'wb') as handle:
         pickle.dump(0, handle)
+
+    open('../DataBase/ListOfBuys.pkl', 'w')
+    with open('../DataBase/ListOfBuys.pkl', 'wb') as handle:
+        pickle.dump([], handle)
 reset()

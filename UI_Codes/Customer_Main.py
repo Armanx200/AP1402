@@ -174,6 +174,7 @@ class Ui_Main_Customer(object):
         ### Header ###
         with open('../DataBase/logined.pkl', 'rb') as handle:
             c = pickle.load(handle)
+        self.c = c
         self.Exit_PB.clicked.connect(self.logout)
         self.Wishlist_PB.clicked.connect(self.wishlist)
         self.Cart_PB.clicked.connect(self.cart)
@@ -181,7 +182,7 @@ class Ui_Main_Customer(object):
         self.ID_var.setText(c.ID)
         self.Name_var.setText(c.Name)
         self.Money_var.setText(str(c.Wallet))
-        self.Cart_PB.setText(str(len(c.Cart)))
+        self.Cart_PB.setText(str(self.sumofcart()))
         ### Main ###
         self.Account_TB.clicked.connect(self.account)
         self.Report_TB.clicked.connect(self.report)
@@ -194,7 +195,7 @@ class Ui_Main_Customer(object):
 
     def retranslateUi(self, Main_Customer):
         _translate = QtCore.QCoreApplication.translate
-        Main_Customer.setWindowTitle(_translate("Main_Customer", "Form"))
+        Main_Customer.setWindowTitle(_translate("Main_Customer", "Main"))
         self.Email_LB.setText(_translate("Main_Customer", "ایمیل :"))
         self.ID_LB.setText(_translate("Main_Customer", "آیدی :"))
         self.Name_LB.setText(_translate("Main_Customer", "نام : "))
@@ -266,3 +267,9 @@ class Ui_Main_Customer(object):
         
         self.page.hide()
         self.ListPage.show()
+
+    def sumofcart(self):
+        sum = 0
+        for By in self.c.Cart:
+            sum += (By.Cost * By.Count)
+        return sum

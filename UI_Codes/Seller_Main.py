@@ -7,13 +7,15 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import pickle
 import os
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(dir_path)
 
-
 class Ui_Main_Seller(object):
     def setupUi(self, Main_Seller):
+
+        self.page = Main_Seller
         Main_Seller.setObjectName("Main_Seller")
         Main_Seller.resize(1280, 720)
         Main_Seller.setMinimumSize(QtCore.QSize(1280, 720))
@@ -186,6 +188,23 @@ class Ui_Main_Seller(object):
         self.verticalLayout_4.addLayout(self.Main_HL_6)
         self.verticalLayout.addLayout(self.verticalLayout_4)
 
+        ### Header ###
+        with open('../DataBase/logined.pkl', 'rb') as handle:
+            c = pickle.load(handle)
+        self.Exit_PB.clicked.connect(self.logout)
+        self.Wishlist_PB.clicked.connect(self.wishlist) #Comments
+        self.Email_var.setText(c.Email)
+        self.ID_var.setText(c.ID)
+        self.Name_var.setText(c.Name)
+        self.Money_var.setText(str(c.Wallet))
+        self.label_2.setText(str(c.Rating))
+        ### Main ###
+        self.Account_TB.clicked.connect(self.account)
+        self.Report_TB.clicked.connect(self.report)
+        self.Product_TB_6.clicked.connect(self.product)
+        self.toolButton.clicked.connect(self.list)  #List
+        self.Cart_PB.clicked.connect(self.cart)
+
         self.retranslateUi(Main_Seller)
         QtCore.QMetaObject.connectSlotsByName(Main_Seller)
 
@@ -194,15 +213,10 @@ class Ui_Main_Seller(object):
         Main_Seller.setWindowTitle(_translate("Main_Seller", "Form"))
         self.Wishlist_PB.setText(_translate("Main_Seller", "نظرات"))
         self.ID_LB.setText(_translate("Main_Seller", "آیدی :"))
-        self.ID_var.setText(_translate("Main_Seller", "ID"))
-        self.Email_var.setText(_translate("Main_Seller", "Email"))
         self.Email_LB.setText(_translate("Main_Seller", "ایمیل :"))
-        self.Name_var.setText(_translate("Main_Seller", "Name"))
         self.Name_LB.setText(_translate("Main_Seller", "نام : "))
-        self.label_2.setText(_translate("Main_Seller", "Rate"))
         self.label.setText(_translate("Main_Seller", "رضایت :"))
         self.Unit_LB.setText(_translate("Main_Seller", "ریال"))
-        self.Money_var.setText(_translate("Main_Seller", "<html><head/><body><p><span style=\" font-size:10pt;\">Money</span></p></body></html>"))
         self.Bal_LB.setText(_translate("Main_Seller", "<html><head/><body><p align=\"right\"><span style=\" font-size:12pt;\">: موجودی</span></p></body></html>"))
         self.Shop_Name_LB.setText(_translate("Main_Seller", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">فروشگاه من</span></p></body></html>"))
         self.Account_TB.setText(_translate("Main_Seller", "حساب کاربری"))
@@ -212,12 +226,66 @@ class Ui_Main_Seller(object):
         self.Product_TB_6.setText(_translate("Main_Seller", "محصولات من"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Main_Seller = QtWidgets.QWidget()
-    ui = Ui_Main_Seller()
-    ui.setupUi(Main_Seller)
-    Main_Seller.show()
-    sys.exit(app.exec_())
+### Header ###
+    def logout(self):
+        with open('../DataBase/logined.pkl', 'wb') as handle:
+            pickle.dump(0, handle)
+        self.page.close()
+        os.system('python Main.py')
+
+    def wishlist(self):
+        from Seller_Comment import Ui_Main_Customer
+        self.Page = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.Page)
+        
+        self.page.hide()
+        self.Page.show()
+
+
+    def cart(self):
+        from Seller_Add import Ui_Main_Customer
+        self.Page = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.Page)
+        
+        self.page.hide()
+        self.Page.show()
+
+    ### Main ###
+    def account(self):
+        from Seller_Account import Ui_Main_Customer
+        self.AccountPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.AccountPage)
+        
+        self.page.hide()
+        self.AccountPage.show()
+
+    def report(self):
+        from Seller_Report import Ui_Main_Customer
+        self.ReportPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.ReportPage)
+        
+        self.page.hide()
+        self.ReportPage.show()
+
+    def product(self):
+        from Seller_Products import Ui_Main_Customer
+        self.ProductsPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.ProductsPage)
+        
+        self.page.hide()
+        self.ProductsPage.show()
+    def list(self):
+        from Seller_List import Ui_Main_Customer
+        self.ListPage = QtWidgets.QWidget()
+        self.ui = Ui_Main_Customer()
+        self.ui.setupUi(self.ListPage)
+        
+        self.page.hide()
+        self.ListPage.show()
+
 

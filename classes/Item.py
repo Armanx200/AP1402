@@ -5,16 +5,9 @@ class item():
         self.ID = self.setid()
         self.Product_ID = product_id
         self.Seller_ID = seller_id
-        self.Count = count 
-        self.Cost = cost    #cost per item
-        self.Rating = 0
-        self.Rates = 0
+        self.Count = int(count)
+        self.Cost = int(cost)   #cost per item
     def __repr__(self):
-        return f"Product: {self.Name}\nID: {self.ID}\nPrice: {self.Cost}$\nDescription: {self.Description}\nrating: {self.Rating}/5"
+        return f"Product: {self.Product_ID.Name}\nID: {self.ID}\nPrice: {self.Cost}$\Seller: {self.Seller_ID.Name}\n"
     def setid(self):
         return "IM"+str(randint(99999,999999))
-
-    def RATE(self, rate):    #CALCULATE_RATE
-        self.Rates += 1
-        self.Rating = ((self.Rating * (self.Rates-1)) / self.Rates) + (rate/self.Rates)
-    

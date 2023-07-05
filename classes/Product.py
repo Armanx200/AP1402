@@ -10,7 +10,7 @@ class product(): #Product
         self.Rating = 0
         self.Rates = 0
     def __repr__(self):
-        return f"Product: {self.Name}\nID: {self.ID}\nDescription: {self.Description}\nrating: {self.Rating}/5"
+        return f"Product: {self.Name}\nID: {self.ID}\nDescription: {self.Description}\nrating: {self.Rating}/5\n"
     def setid(self):
         return "PT"+str(randint(99999,999999))
 
